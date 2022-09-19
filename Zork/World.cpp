@@ -23,7 +23,15 @@ void World::createAllEntities(string playerName) {
 
 	//ROOM CREATION
 	Room* floor1 = new Room("Floor 1", "It is the first floor of the Paradise tower. \nYou can go up 1 floor.");
+	Room* floor2 = new Room("Floor 2", "It is the second floor of the Paradise tower. \nYou can go up 1 floor and down 1 floor.");
+	entities.push_back(floor1);
+	entities.push_back(floor2);
 
+	//EXIT CREATION
+	Exit* exit1Floor1 = new Exit("Go floor 2", "This exit goes to Floor 2", floor1, floor2, false);
+	Exit* exit1Floor2 = new Exit("Go floor 1", "This exit goes to Floor 1", floor2, floor1, false);
+	entities.push_back(exit1Floor1);
+	entities.push_back(exit1Floor2);
 
 	//PLAYER CREATION
 	player = new Player(playerName, "A traveler from other lands.", 100, 100, 4, floor1, false);
@@ -33,12 +41,12 @@ void World::createAllEntities(string playerName) {
 	entities.push_back(sword);
 
 	//GUARDIAN CREATION
-	//Npc* guardian = new Npc("Guardian", "He is the guardian of the tower.", 100, 100, floor1, false, false);
-	//entities.push_back(guardian);
+	Npc* guardian = new Npc("Guardian", "He is the guardian of the tower.", 100, 100, floor1, false, false);
+	entities.push_back(guardian);
 
 
 	//ENEMIES CREATION
-	Npc* troll = new Npc("Big troll", "This troll is big, but does not seem very smart.", 25, 25, floor1, true, false);
+	Npc* troll = new Npc("Big troll", "This troll is big, but does not seem very smart.", 25, 25, floor2, true, false);
 	Item* mace = new Item("Mace", "Big mace with a lot of spikes.", 2, 6, WEAPON, troll, true);
 	troll->weapon = mace;
 	Item* shield = new Item("Shield", "Small but usefull sheild.", 2, 5, SHIELD, troll, true);
@@ -107,8 +115,37 @@ void World::gameLoop() {
 			player->parent->look();
 			break;
 		case 2: //Move to other rooms
-			cout << "Choose room to go\n\n";
-			break;
+		{
+			Room* ro = (Room*)player->parent;
+			try {
+				Exit* exitToGo = ro->showExits();
+				if (exitToGo->isLocked()) { //If exit is locked
+					cout << "This door is locked. Maybe there is some key that can open it.\n\n";
+				}
+				else {
+					int numChild = 0;
+					//get Num of child (player) to remove it from childs (of the room)
+					for (vector<Entity*>::const_iterator ch = player->parent->childs.begin(); ch != player->parent->childs.cend(); ++ch)
+					{
+						if ((*ch)->getName() == player->getName())
+						{
+							break;
+						}
+						numChild++;
+					}
+
+					player->changeParent((Entity*)exitToGo->getDestination(), numChild);
+
+
+					player->parent->look();
+				}
+			}
+			catch (string err) {
+
+				cout << err;
+			}
+		}
+		break;
 		case 3: //Attack enemies
 		{
 			cout << "You attack creature in the room \n";

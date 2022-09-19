@@ -44,3 +44,40 @@ void Room::look() const {
 	cout << "\n\n";
 
 }
+
+Exit* Room::showExits() const { //Show a list of all the exits in the room and select to go one of them
+	int numerization = 0;
+
+	cout << "0: Exit\n";
+
+	vector<Entity*> exitsVector;
+
+	for (vector<Entity*>::const_iterator ex = this->childs.begin(); ex != this->childs.cend(); ++ex)
+	{
+		if ((*ex)->typeOfEntity == EXIT)
+		{
+			cout << numerization + 1 << ": ";
+			Exit* exit = (Exit*)*ex;
+			exitsVector.push_back(exit);
+			cout << exit->getName() << "\n";
+
+			numerization++;
+		}
+	}
+	cout << "\n";
+
+	int exitToGo;
+	cin >> exitToGo;
+	if (!cin || exitToGo < 0 || exitToGo>numerization) { //If its not an integer or incorrect value
+		throw string("Incorrect value \n\n");
+	}
+	else {
+		if (exitToGo == 0) { //If the player wants to go back to menu and do not select an exit
+			throw string("\n");
+		}
+		else { //Return exit selected to go
+			return (Exit*)exitsVector[exitToGo - 1];
+
+		}
+	}
+}

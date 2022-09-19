@@ -18,7 +18,6 @@ public:
 
 	//Functions
 	void look() const;
-	int showItemsInRoom() const;
 	Exit* showExits() const;
 
 	//Getters
