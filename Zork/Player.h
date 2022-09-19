@@ -17,6 +17,9 @@ public:
 
 	//Functions
 	void lookInventory() const;
+	void equipItem(Item* itemToEquip);
+	void unequipWeapon();
+	void unequipShield();
 	bool numItemsInInventory();
 
 

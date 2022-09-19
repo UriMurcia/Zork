@@ -161,6 +161,23 @@ void World::gameLoop() {
 			break;
 		case 6: //Equip items in inventory
 			cout << "You equip items";
+			{
+				bool hasSomething = player->numItemsInInventory();
+
+				if (hasSomething) { //If inventory is not empty
+					int itemPicked;
+					cin >> itemPicked;
+					if (!cin || itemPicked < 0 || itemPicked > player->childs.size()) { //If its not an integer or is bigger or lower than the allowed
+						cout << "Incorrect value \n\n";
+					}
+					else {
+						if (itemPicked > 0) { //0: Exit
+							Item* itt = (Item*)player->childs[itemPicked - 1];
+							player->equipItem(itt);
+						}
+					}
+				}
+			}
 			break;
 		case 7: //Use item in inventory
 			cout << "Select item to use:";
