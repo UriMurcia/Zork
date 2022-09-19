@@ -207,7 +207,7 @@ void World::gameLoop() {
 
 					player->changeParent((Entity*)exitToGo->getDestination(), numChild);
 
-
+					//Description of the room
 					player->parent->look();
 				}
 			}
@@ -377,7 +377,7 @@ void World::gameLoop() {
 
 		break;
 
-
+		
 		default:
 			cout << "Incorrect value \n\n";
 
