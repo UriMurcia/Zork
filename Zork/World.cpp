@@ -24,14 +24,38 @@ void World::createAllEntities(string playerName) {
 	//ROOM CREATION
 	Room* floor1 = new Room("Floor 1", "It is the first floor of the Paradise tower. \nYou can go up 1 floor.");
 	Room* floor2 = new Room("Floor 2", "It is the second floor of the Paradise tower. \nYou can go up 1 floor and down 1 floor.");
+	Room* floor3 = new Room("Floor 3", "It is the third floor of the Paradise tower. \nYou can go up 1 floor and down 1 floor. It seems like there is a hidden room.");
+	Room* misteriousRoom = new Room("Misterious room", "This room seems to hide something. \nYou can go back to Floor 3.");
+	Room* finalFloor = new Room("Final Floor", "It is the final floor of the Paradise tower. \nYou can go down 1 floor.");
 	entities.push_back(floor1);
 	entities.push_back(floor2);
+	entities.push_back(floor3);
+	entities.push_back(misteriousRoom);
+	entities.push_back(finalFloor);
+
 
 	//EXIT CREATION
 	Exit* exit1Floor1 = new Exit("Go floor 2", "This exit goes to Floor 2", floor1, floor2, false);
+
 	Exit* exit1Floor2 = new Exit("Go floor 1", "This exit goes to Floor 1", floor2, floor1, false);
+	Exit* exit2Floor2 = new Exit("Go floor 3", "This exit goes to Floor 3", floor2, floor3, false);
+
+	Exit* exit1Floor3 = new Exit("Go floor 2", "This exit goes to Floor 2", floor3, floor2, false);
+	Exit* exit2Floor3 = new Exit("Go floor 4", "This exit goes to Floor 4", floor3, finalFloor, false);
+	Exit* exit3Floor3 = new Exit("Go misterious room", "This exit goes to the misterious room", floor3, misteriousRoom, false);
+
+	Exit* exit1MisteriousRoom = new Exit("Go floor 3", "This exit goes back to Floor 3", misteriousRoom, floor3, false);
+
+	Exit* exit1FinalFloor = new Exit("Go floor 3", "This exit goes to Floor 3", finalFloor, floor3, false);
 	entities.push_back(exit1Floor1);
 	entities.push_back(exit1Floor2);
+	entities.push_back(exit2Floor2);
+	entities.push_back(exit1Floor3);
+	entities.push_back(exit2Floor3);
+	entities.push_back(exit3Floor3);
+	entities.push_back(exit1MisteriousRoom);
+	entities.push_back(exit1FinalFloor);
+
 
 	//PLAYER CREATION
 	player = new Player(playerName, "A traveler from other lands.", 100, 100, 4, floor1, false);
@@ -54,6 +78,18 @@ void World::createAllEntities(string playerName) {
 	entities.push_back(troll);
 	entities.push_back(mace);
 	entities.push_back(shield);
+
+	Npc* knight = new Npc("Dark knight", "Seems like a dangerous dark knight.", 75, 75, floor3, true, false);
+	Item* longSword = new Item("Long Sword", "This sword is so long it can deal a lot of damage, it is difficult to use though.", 1, 15, WEAPON, knight, true);
+	knight->weapon = longSword;
+	entities.push_back(longSword);
+	entities.push_back(knight);
+
+	Npc* finalBoss = new Npc("Final boss", "Final boss of the Paradise Tower. He does not have weapons, it seems like he fights with his hands.", 120, 120, finalFloor, true, false);
+	Item* hands = new Item("Big hands", "Big and ugly hands.", 5, 12, WEAPON, finalBoss, true);
+	finalBoss->weapon = hands;
+	entities.push_back(hands);
+	entities.push_back(finalBoss);
 
 
 }
