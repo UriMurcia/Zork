@@ -29,6 +29,9 @@ void Player::lookInventory() const {
 			Item* itt = (Item*)childs[i];
 
 			cout << itt->getName() << ": " << itt->getDescription();
+			if (itt->getTypeOfItem() == WEAPON || itt->getTypeOfItem() == SHIELD) { //If item is shield or weapon: print stats
+				cout << " MIN: " << itt->getMinStats() << " || MAX: " << itt->getMaxStats();
+			}
 			if (itt->getEquiped()) { //If item is equpied: print (EQUIPED)
 				cout << " (EQUIPED)";
 			}
@@ -74,6 +77,9 @@ bool Player::numItemsInInventory() { //List of all the items in the inventory
 			Item* itt = (Item*)childs[i];
 
 			cout << i + 1 << ": " << itt->getName() << ": " << itt->getDescription();
+			if (itt->getEquiped()) { //If item is already equpied: print (EQUIPED)
+				cout << " (EQUIPED)";
+			}
 			cout << "\n";
 		}
 		cout << "\n";
@@ -231,7 +237,6 @@ bool Player::attack(Npc* target) {
 		}
 		return false;
 	}
-
 }
 
 void Player::useItem(Item* itemToUse, int numChildToDelete) {

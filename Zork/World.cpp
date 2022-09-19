@@ -129,6 +129,22 @@ void World::gameLoop() {
 
 	//Menu interface
 	cout << "||||||||||||||||||||||||||||||||||||||||||||\n";
+	cout << "HEALTH: " << player->getHealth();
+	if (player->weapon == NULL) {
+		cout << " --- ATTACK(1/1)";
+	}
+	else {
+		cout << " --- ATTACK(" << player->weapon->getMinStats() << "/";
+		cout << player->weapon->getMaxStats() << ")";
+	}
+	if (player->shield == NULL) {
+		cout << " --- DEFENSE(1/1)\n";
+	}
+	else {
+		cout << " --- DEFENSE(" << player->shield->getMinStats() << "/";
+		cout << player->shield->getMaxStats() << ")\n";
+	}
+	cout << "||||||||||||||||||||||||||||||||||||||||||||\n";
 	cout << "0: Quit \n";
 	cout << "1: Look around \n";
 	cout << "2: Select where you want to go \n";
@@ -141,6 +157,7 @@ void World::gameLoop() {
 	cout << "9: Unequip shield \n";
 	cout << "10: Drop items from inventory\n";
 	cout << "||||||||||||||||||||||||||||||||||||||||||||\n\n";
+
 
 	cout << "Choice: ";
 	cin >> choice;
