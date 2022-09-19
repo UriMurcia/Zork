@@ -1,0 +1,12 @@
+﻿  Creature.cpp
+  Entity.cpp
+  Exit.cpp
+  Item.cpp
+  main.cpp
+  Npc.cpp
+  Player.cpp
+  Room.cpp
+  World.cpp
+F:\Universitat uri\Preparacio Master\EXAMEN BO AMB COMMITS I NOM BO\Zork\Zork\World.cpp(55,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Zork.vcxproj -> F:\Universitat uri\Preparacio Master\EXAMEN BO AMB COMMITS I NOM BO\Zork\x64\Debug\Zork.exe
