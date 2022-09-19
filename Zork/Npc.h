@@ -9,7 +9,7 @@ using namespace std;
 class Npc : public Creature
 {
 public:
-	Npc(string name, string description, int health, int maxHealth, Room* Room, bool isEnemy);
+	Npc(string name, string description, int health, int maxHealth, Room* Room, bool isEnemy, bool dead);
 	~Npc();
 
 	//Operators
@@ -18,6 +18,7 @@ public:
 
 
 	//Getters
+	inline const bool& getIsEnemy() const { return this->isEnemy; }
 
 	//Setters
 

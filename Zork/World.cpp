@@ -26,19 +26,19 @@ void World::createAllEntities(string playerName) {
 
 
 	//PLAYER CREATION
-	player = new Player(playerName, "A traveler from other lands.", 100, 100, 4, floor1);
+	player = new Player(playerName, "A traveler from other lands.", 100, 100, 4, floor1, false);
 	entities.push_back(player);
 	//SWORD CREATION
 	Item* sword = new Item("Sword", "Big sword with a lot of consistency.", 6, 11, WEAPON, floor1, false);
 	entities.push_back(sword);
 
 	//GUARDIAN CREATION
-	Npc* guardian = new Npc("Guardian", "He is the guardian of the tower.", 100, 100, floor1, false);
-	entities.push_back(guardian);
+	//Npc* guardian = new Npc("Guardian", "He is the guardian of the tower.", 100, 100, floor1, false, false);
+	//entities.push_back(guardian);
 
 
 	//ENEMIES CREATION
-	Npc* troll = new Npc("Big troll", "This troll is big, but does not seem very smart.", 25, 25, floor1, true);
+	Npc* troll = new Npc("Big troll", "This troll is big, but does not seem very smart.", 25, 25, floor1, true, false);
 	Item* mace = new Item("Mace", "Big mace with a lot of spikes.", 2, 6, WEAPON, troll, true);
 	troll->weapon = mace;
 	Item* shield = new Item("Shield", "Small but usefull sheild.", 2, 5, SHIELD, troll, true);
@@ -110,8 +110,30 @@ void World::gameLoop() {
 			cout << "Choose room to go\n\n";
 			break;
 		case 3: //Attack enemies
+		{
 			cout << "You attack creature in the room \n";
-			break;
+			int numNpcs = 0; //variable to see if there are no enemies in the room
+			//Iteration of all entities in the room with type of entity NPC to find the enemy in the room
+			for (vector<Entity*>::const_iterator np = player->parent->childs.begin(); np != player->parent->childs.cend(); ++np)
+			{
+				if ((*np)->typeOfEntity == NPC)
+				{
+					numNpcs++;
+					Npc* npc = (Npc*)*np;
+					bool finishGame = player->attack(npc);
+					if (finishGame) { //If we win the game or we die
+						this->continuePlaying = false;
+					}
+					break;
+				}
+			}
+			if (numNpcs == 0) {
+				cout << "There are no creatures in this room\n\n";
+			}
+		}
+
+		break;
+
 		case 4: //Pick items in the room
 			cout << "Select item to pick: \n";
 			cout << "0: Exit\n";
@@ -183,10 +205,10 @@ void World::gameLoop() {
 			cout << "Select item to use:";
 			break;
 		case 8: //Unequip weapon
-			cout << "You unequip weapon";
+			player->unequipWeapon();
 			break;
 		case 9: //Unequip shield
-			cout << "You unequip shield";
+			player->unequipShield();
 			break;
 		case 10: //Drop items from inventory
 			cout << "You drop item";
