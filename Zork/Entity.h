@@ -42,6 +42,9 @@ public:
 	inline void setNewParent(Entity* newParent) {
 		this->parent = newParent;
 	}
+	inline void setDescription(string newDescription) {
+		this->description = newDescription;
+	}
 public:
 	string name;
 	string description;

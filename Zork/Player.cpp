@@ -197,13 +197,20 @@ bool Player::attack(Npc* target) {
 		}
 		if (target->health <= 0) { //If the enemy is the one dead
 			target->dead = true;
-			cout << "You killed " << target->getName() << "\n\n";
-			int maxChilds = target->childs.size();
-			for (int i = 0; i < maxChilds; i++) { //The enemy's items are droped
-				cout << target->getName() << " dropped " << target->childs[0]->getName() << "\n";
-				target->dropItem((Item*)target->childs[0]);
+			if (target->getName() == "Final boss") { //If the enemy dead is the final boss, the game is finished
+				cout << "Mage: Congratulations traveler! You defeated the strongest enemy in the Paradise Tower!\n";
+				cout << "Now, it is your turn to defend this tower, you are the king of the Paradise tower!\n";
+				return true;
 			}
-			cout << "\n\n";
+			else { //If the enemy dead is not the final boss
+				cout << "You killed " << target->getName() << "\n\n";
+				int maxChilds = target->childs.size();
+				for (int i = 0; i < maxChilds; i++) { //The enemy's items are droped
+					cout << target->getName() << " dropped " << target->childs[0]->getName() << "\n";
+					target->dropItem((Item*)target->childs[0]);
+				}
+				cout << "\n\n";
+			}
 
 		}
 		if (this->health <= 0) { //If the player dies, the game is finished
@@ -217,6 +224,7 @@ bool Player::attack(Npc* target) {
 	else { //If the creature in the room is not an enemy or is dead
 		if (target->dead) {
 			cout << target->getName() << " is dead. \n\n";
+			target->setDescription("(DEAD)");
 		}
 		else {
 			cout << "You cannot attack " << target->getName() << "\n\n";
