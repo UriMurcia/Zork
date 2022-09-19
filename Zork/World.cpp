@@ -211,7 +211,26 @@ void World::gameLoop() {
 			player->unequipShield();
 			break;
 		case 10: //Drop items from inventory
-			cout << "You drop item";
+		{
+			bool hasSomething = player->numItemsInInventory();
+
+			if (hasSomething) { //If inventory is not empty
+				int itemPicked;
+				cin >> itemPicked;
+				if (!cin || itemPicked < 0 || itemPicked > player->childs.size()) { //If its not an integer or is bigger or lower than the allowed
+					cout << "Incorrect value \n\n";
+				}
+				else {
+					if (itemPicked > 0) { //0: Exit
+						Item* itt = (Item*)player->childs[itemPicked - 1];
+						player->dropItem(itt);
+					}
+				}
+			}
+		}
+		break;
+		default:
+			cout << "Incorrect value \n\n";
 		}
 	}
 }

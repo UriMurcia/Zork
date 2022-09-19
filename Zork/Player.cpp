@@ -199,6 +199,10 @@ bool Player::attack(Npc* target) {
 			target->dead = true;
 			cout << "You killed " << target->getName() << "\n\n";
 			int maxChilds = target->childs.size();
+			for (int i = 0; i < maxChilds; i++) { //The enemy's items are droped
+				cout << target->getName() << " dropped " << target->childs[0]->getName() << "\n";
+				target->dropItem((Item*)target->childs[0]);
+			}
 			cout << "\n\n";
 
 		}

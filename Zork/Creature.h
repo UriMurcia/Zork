@@ -26,6 +26,7 @@ public:
 	const int& getDefenseMin() const;
 	const int& getDefenseMax() const;
 	inline const bool& isDead() const { return this->dead; }
+	void dropItem(Item* itemToDrop);
 
 	//Setters
 
