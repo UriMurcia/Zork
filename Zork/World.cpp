@@ -41,7 +41,7 @@ void World::createAllEntities(string playerName) {
 	Exit* exit2Floor2 = new Exit("Go floor 3", "This exit goes to Floor 3", floor2, floor3, false);
 
 	Exit* exit1Floor3 = new Exit("Go floor 2", "This exit goes to Floor 2", floor3, floor2, false);
-	Exit* exit2Floor3 = new Exit("Go floor 4", "This exit goes to Floor 4", floor3, finalFloor, false);
+	Exit* exit2Floor3 = new Exit("Go floor 4", "This exit goes to Floor 4", floor3, finalFloor, true);
 	Exit* exit3Floor3 = new Exit("Go misterious room", "This exit goes to the misterious room", floor3, misteriousRoom, false);
 
 	Exit* exit1MisteriousRoom = new Exit("Go floor 3", "This exit goes back to Floor 3", misteriousRoom, floor3, false);
@@ -91,6 +91,15 @@ void World::createAllEntities(string playerName) {
 	entities.push_back(hands);
 	entities.push_back(finalBoss);
 
+
+	//ITEMS CREATION
+	Item* littleChest = new Item("Little Chest", "It seems it contains something in it.", 0, 0, CHEST, misteriousRoom, false);
+	Item* key = new Item("Key", "Can open the final door.", 0, 0, KEY, littleChest, false);
+	entities.push_back(littleChest);
+	entities.push_back(key);
+
+	Item* potion = new Item("Potion", "Heals the owner.", 100, 100, POTION, misteriousRoom, false);
+	entities.push_back(potion);
 
 }
 
@@ -275,8 +284,25 @@ void World::gameLoop() {
 			}
 			break;
 		case 7: //Use item in inventory
-			cout << "Select item to use:";
-			break;
+		{
+			bool hasSomething = player->numItemsInInventory();
+
+			if (hasSomething) { //If inventory is not empty
+				int itemPicked;
+				cin >> itemPicked;
+				if (!cin || itemPicked < 0 || itemPicked > player->childs.size()) { //If its not an integer or is bigger or lower than the allowed
+					cout << "Incorrect value \n\n";
+				}
+				else {
+					if (itemPicked > 0) { //0: Exit
+						Item* itt = (Item*)player->childs[itemPicked - 1];
+						player->useItem(itt, itemPicked - 1);
+					}
+				}
+			}
+		}
+
+		break;
 		case 8: //Unequip weapon
 			player->unequipWeapon();
 			break;

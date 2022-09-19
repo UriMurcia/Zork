@@ -22,6 +22,7 @@ public:
 	void unequipShield();
 	bool numItemsInInventory();
 	bool attack(Npc* target);
+	void useItem(Item* itemToUse, int numChildToDelete);
 
 
 	//Getters

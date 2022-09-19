@@ -225,3 +225,66 @@ bool Player::attack(Npc* target) {
 	}
 
 }
+
+void Player::useItem(Item* itemToUse, int numChildToDelete) {
+	if (itemToUse->getTypeOfItem() == WEAPON || itemToUse->getTypeOfItem() == SHIELD) {
+		cout << "Weapons and shields cannot be used\n\n";
+	}
+	else {
+
+		if (itemToUse->getTypeOfItem() == POTION) { //Use of potion
+			//Restore health
+			this->health = maxHealth;
+			cout << "Health restored to " << this->health << "\n\n";
+
+			//Delete potion
+			vector<Entity*>::iterator q = this->childs.begin();
+			q += numChildToDelete;
+			vector<Entity*>::iterator p = this->childs.erase(q);
+
+			itemToUse = NULL;
+		}
+		else {
+			if (itemToUse->getTypeOfItem() == CHEST) { //Use of chest
+				//Change parent of the key inside of it (new parent = player)
+				itemToUse->childs[0]->changeParent(this, 0);
+				cout << "Chest opened. You obtained key.\n\n";
+
+				//Delete chest
+				vector<Entity*>::iterator q = this->childs.begin();
+				q += numChildToDelete;
+				vector<Entity*>::iterator p = this->childs.erase(q);
+
+				itemToUse = NULL;
+			}
+			else {
+				if (itemToUse->getTypeOfItem() == KEY) { //Use of potion
+					if (this->parent->getName() == "Floor 3") { //If key used in the correct room
+
+						//Iteration to get the exit of the door closed
+						for (vector<Entity*>::const_iterator ex = this->parent->childs.begin(); ex != this->parent->childs.cend(); ++ex)
+						{
+							if ((*ex)->typeOfEntity == EXIT && (*ex)->getName() == "Go floor 4")
+							{
+								Exit* exit = (Exit*)(*ex);
+								//Open door
+								exit->setLocked(false);
+							}
+						}
+						cout << "Door opened\n\n";
+
+						//Delete key
+						vector<Entity*>::iterator q = this->childs.begin();
+						q += numChildToDelete;
+						vector<Entity*>::iterator p = this->childs.erase(q);
+
+						itemToUse = NULL;
+					}
+					else {
+						cout << itemToUse->getName() << " cannot be used in this room\n\n";
+					}
+				}
+			}
+		}
+	}
+}
