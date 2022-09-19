@@ -64,8 +64,6 @@ void Player::unequipShield() {
 }
 
 
-
-
 bool Player::numItemsInInventory() { //List of all the items in the inventory
 	if (childs.empty()) {
 		cout << "Your inventory is empty\n\n";
@@ -115,6 +113,7 @@ void Player::equipItem(Item* itemToEquip) {
 	}
 	cout << "\n\n\n";
 }
+
 
 bool Player::attack(Npc* target) {
 
@@ -204,7 +203,7 @@ bool Player::attack(Npc* target) {
 		if (target->health <= 0) { //If the enemy is the one dead
 			target->dead = true;
 			if (target->getName() == "Final boss") { //If the enemy dead is the final boss, the game is finished
-				cout << "Mage: Congratulations traveler! You defeated the strongest enemy in the Paradise Tower!\n";
+				cout << "Guardian: Congratulations traveler! You defeated the strongest enemy in the Paradise Tower!\n";
 				cout << "Now, it is your turn to defend this tower, you are the king of the Paradise tower!\n";
 				return true;
 			}
@@ -237,6 +236,7 @@ bool Player::attack(Npc* target) {
 		}
 		return false;
 	}
+
 }
 
 void Player::useItem(Item* itemToUse, int numChildToDelete) {

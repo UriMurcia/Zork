@@ -17,6 +17,7 @@ public:
 	//Operators
 
 	//Functions
+	void dropItem(Item* itemToDrop);
 
 	//Getters
 	inline const int& getHealth() const { return this->health; }
@@ -26,7 +27,6 @@ public:
 	const int& getDefenseMin() const;
 	const int& getDefenseMax() const;
 	inline const bool& isDead() const { return this->dead; }
-	void dropItem(Item* itemToDrop);
 
 	//Setters
 

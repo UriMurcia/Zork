@@ -1,3 +1,4 @@
+
 #include "Item.h"
 
 Item::Item(string name, string description, int minStats, int maxStats, TypeOfItem typeOfItem, Entity* parent, bool equiped) :

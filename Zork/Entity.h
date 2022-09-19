@@ -45,6 +45,7 @@ public:
 	inline void setDescription(string newDescription) {
 		this->description = newDescription;
 	}
+
 public:
 	string name;
 	string description;

@@ -14,8 +14,10 @@ World::World() {
 }
 
 World::~World() {
-
-
+	for (vector<Entity*>::iterator it = entities.begin(); it != entities.end(); ++it) {
+		delete* it;
+	}
+	entities.clear();
 }
 
 
@@ -115,7 +117,7 @@ void World::initWorld() {
 
 	cout << "\nGuardian: Hi " + name + ", ";
 	cout << "in this tower you will have to battle against dangerous enemies. \n";
-	cout << "To come out victorious, you need a weapon, here you have a sword, take it and do not forget to equip it. \n\n";
+	cout << "To come out victorious, you need a weapon, here you have a sword, take it and do not forget to equip it \n\n";
 
 	createAllEntities(name);
 }
@@ -158,7 +160,6 @@ void World::gameLoop() {
 	cout << "10: Drop items from inventory\n";
 	cout << "||||||||||||||||||||||||||||||||||||||||||||\n\n";
 
-
 	cout << "Choice: ";
 	cin >> choice;
 	cout << "\n";
@@ -170,12 +171,20 @@ void World::gameLoop() {
 		int numerization = 0;
 		switch (choice) {
 		case 0: //Quit game
+
 			this->continuePlaying = false;
 			break;
+
+
+
 		case 1: //Look room
 			cout << "You look around \n\n";
+
 			player->parent->look();
+
 			break;
+
+
 		case 2: //Move to other rooms
 		{
 			Room* ro = (Room*)player->parent;
@@ -208,10 +217,14 @@ void World::gameLoop() {
 			}
 		}
 		break;
+
+
 		case 3: //Attack enemies
 		{
 			cout << "You attack creature in the room \n";
+
 			int numNpcs = 0; //variable to see if there are no enemies in the room
+
 			//Iteration of all entities in the room with type of entity NPC to find the enemy in the room
 			for (vector<Entity*>::const_iterator np = player->parent->childs.begin(); np != player->parent->childs.cend(); ++np)
 			{
@@ -233,7 +246,9 @@ void World::gameLoop() {
 
 		break;
 
+
 		case 4: //Pick items in the room
+
 			cout << "Select item to pick: \n";
 			cout << "0: Exit\n";
 
@@ -275,31 +290,38 @@ void World::gameLoop() {
 					}
 				}
 			}
+
 			break;
+
+
 		case 5: //Look items in inventory
 			cout << "You look Inventory: \n\n";
 			player->lookInventory();
-			break;
-		case 6: //Equip items in inventory
-			cout << "You equip items";
-			{
-				bool hasSomething = player->numItemsInInventory();
 
-				if (hasSomething) { //If inventory is not empty
-					int itemPicked;
-					cin >> itemPicked;
-					if (!cin || itemPicked < 0 || itemPicked > player->childs.size()) { //If its not an integer or is bigger or lower than the allowed
-						cout << "Incorrect value \n\n";
-					}
-					else {
-						if (itemPicked > 0) { //0: Exit
-							Item* itt = (Item*)player->childs[itemPicked - 1];
-							player->equipItem(itt);
-						}
+			break;
+
+
+		case 6: //Equip items in inventory
+		{
+			bool hasSomething = player->numItemsInInventory();
+
+			if (hasSomething) { //If inventory is not empty
+				int itemPicked;
+				cin >> itemPicked;
+				if (!cin || itemPicked < 0 || itemPicked > player->childs.size()) { //If its not an integer or is bigger or lower than the allowed
+					cout << "Incorrect value \n\n";
+				}
+				else {
+					if (itemPicked > 0) { //0: Exit
+						Item* itt = (Item*)player->childs[itemPicked - 1];
+						player->equipItem(itt);
 					}
 				}
 			}
-			break;
+		}
+		break;
+
+
 		case 7: //Use item in inventory
 		{
 			bool hasSomething = player->numItemsInInventory();
@@ -320,12 +342,20 @@ void World::gameLoop() {
 		}
 
 		break;
+
+
 		case 8: //Unequip weapon
 			player->unequipWeapon();
+
 			break;
+
+
 		case 9: //Unequip shield
 			player->unequipShield();
+
 			break;
+
+
 		case 10: //Drop items from inventory
 		{
 			bool hasSomething = player->numItemsInInventory();
@@ -344,9 +374,14 @@ void World::gameLoop() {
 				}
 			}
 		}
+
 		break;
+
+
 		default:
 			cout << "Incorrect value \n\n";
+
 		}
 	}
+
 }
